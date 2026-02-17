@@ -6,10 +6,11 @@ import TvScreenMaterial from './TvScreenMaterial'
 import useChannelStore from './store'
 import TVUI from './TVUI'
 
-useGLTF.preload('/assets/lucki-tv.glb')
+const BASE = import.meta.env.BASE_URL
+useGLTF.preload(BASE + 'assets/lucki-tv.glb')
 
 export default function Model({ controlsRef, onGoTo, onReady, mobileTapRef, ...props }) {
-  const { scene, animations } = useGLTF('/assets/lucki-tv.glb')
+  const { scene, animations } = useGLTF(BASE + 'assets/lucki-tv.glb')
   const mixerRef = useRef(null)
   const actionRef = useRef(null)
   const videoRef = useRef(null)
@@ -208,7 +209,7 @@ export default function Model({ controlsRef, onGoTo, onReady, mobileTapRef, ...p
       setScreenTexture(videoTexture, true)
       useChannelStore.getState().setPhase('intro')
       video.loop = false
-      video.src = '/videos/intro.mov'
+      video.src = BASE + 'videos/intro.mov'
       video.load()
       video.play().catch(() => {
         if (mounted) enterChannelsMode()
@@ -269,10 +270,10 @@ export default function Model({ controlsRef, onGoTo, onReady, mobileTapRef, ...p
       const phase = useChannelStore.getState().phase
       if (phase === 'intro') {
         useChannelStore.getState().setPhase('glitch')
-        glitchThen(() => playClip('/videos/orangeclip1.mp4', 'orange-1'))
+        glitchThen(() => playClip(BASE + 'videos/orangeclip1.mp4', 'orange-1'))
       } else if (phase === 'orange-1') {
         useChannelStore.getState().setPhase('glitch')
-        glitchThen(() => playClip('/videos/orangeclip2.mp4', 'orange-2'))
+        glitchThen(() => playClip(BASE + 'videos/orangeclip2.mp4', 'orange-2'))
       } else if (phase === 'orange-2') {
         useChannelStore.getState().setPhase('glitch')
         glitchThen(() => enterChannelsMode())
